@@ -1,16 +1,16 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "topupUrl": "https://seller.shopee.co.id/portal/marketing/pas/top-up?source_page_id=1",
   "timing": {
-    "pageLoadTimeout": 30000,
-    "stepTimeout": 20000,
+    "pageLoadTimeout": 25000,
+    "stepTimeout": 15000,
     "maxStepRetries": 8,
-    "clickDelayAfterLoad": [4000, 7000],
-    "clickDelayNormal": [1800, 3500],
-    "postClickSettle": [2000, 4000],
-    "cycleCooldown": [3000, 8000],
-    "typingDelay": [50, 130],
-    "pinKeyDelay": [70, 160]
+    "clickDelayAfterLoad": [1200, 2200],
+    "clickDelayNormal": [450, 950],
+    "postClickSettle": [700, 1500],
+    "cycleCooldown": [1000, 2500],
+    "typingDelay": [28, 68],
+    "pinKeyDelay": [40, 85]
   },
   "pinConfig": {
     "modalSelectors": ["#modal", ".modal", "[role=\"dialog\"]", "[class*=\"modal\"]"],
