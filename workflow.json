@@ -1,0 +1,168 @@
+{
+  "version": "2.0.0",
+  "topupUrl": "https://seller.shopee.co.id/portal/marketing/pas/top-up?source_page_id=1",
+  "timing": {
+    "pageLoadTimeout": 30000,
+    "stepTimeout": 20000,
+    "maxStepRetries": 8,
+    "clickDelayAfterLoad": [4000, 7000],
+    "clickDelayNormal": [1800, 3500],
+    "postClickSettle": [2000, 4000],
+    "cycleCooldown": [3000, 8000],
+    "typingDelay": [50, 130],
+    "pinKeyDelay": [70, 160]
+  },
+  "pinConfig": {
+    "modalSelectors": ["#modal", ".modal", "[role=\"dialog\"]", "[class*=\"modal\"]"],
+    "inputTypes": ["password", "tel"],
+    "confirmTexts": ["konfirmasi", "confirm"]
+  },
+  "pinErrorTexts": [
+    "pin saldo penjual salah",
+    "pin salah",
+    "incorrect pin",
+    "wrong pin",
+    "pin tidak valid"
+  ],
+  "steps": [
+    {
+      "name": "1 - Navigasi ke Top-Up",
+      "causesPageLoad": true,
+      "customAction": "navigate",
+      "validation": [
+        { "type": "css", "value": "div.eds-form-item button" },
+        { "type": "textContains", "value": "jumlah lainnya" },
+        { "type": "textContains", "value": "other amount" }
+      ]
+    },
+    {
+      "name": "2 - Klik Jumlah Lainnya",
+      "causesPageLoad": false,
+      "strategies": [
+        { "type": "jsClick", "value": "jumlah lainnya" },
+        { "type": "jsClick", "value": "other amount" },
+        { "type": "textContains", "value": "jumlah lainnya" },
+        { "type": "textContains", "value": "other amount" },
+        { "type": "css", "value": "div.eds-form-item button" },
+        { "type": "textContains", "value": "custom" }
+      ],
+      "validation": [
+        { "type": "css", "value": ".eds-input__input" },
+        { "type": "css", "value": "input[type=\"text\"]" },
+        { "type": "css", "value": "input[type=\"number\"]" }
+      ]
+    },
+    {
+      "name": "3 - Input Saldo",
+      "causesPageLoad": false,
+      "customAction": "inputAmount",
+      "inputStrategies": [
+        { "type": "css", "value": ".eds-input__input" },
+        { "type": "css", "value": "input[type=\"text\"]" },
+        { "type": "css", "value": "input[type=\"number\"]" }
+      ],
+      "clearSelector": ".eds-input__input, input[type=\"text\"], input[type=\"number\"]",
+      "validation": [
+        { "type": "testId", "value": "topup-product-price" },
+        { "type": "css", "value": "[data-testid=\"topup-product-price\"]" }
+      ]
+    },
+    {
+      "name": "4 - Validasi Harga",
+      "causesPageLoad": false,
+      "customAction": "validatePrice",
+      "priceSelector": "[data-testid=\"topup-product-price\"]"
+    },
+    {
+      "name": "5 - Klik Checkout",
+      "causesPageLoad": true,
+      "strategies": [
+        { "type": "textContains", "value": "checkout" },
+        { "type": "text", "value": "Checkout" },
+        { "type": "testId", "value": "checkout-button" },
+        { "type": "jsClick", "value": "checkout" }
+      ],
+      "validation": [
+        { "type": "textContains", "value": "konfirmasi" },
+        { "type": "textContains", "value": "confirm" }
+      ]
+    },
+    {
+      "name": "6 - Klik Konfirmasi",
+      "causesPageLoad": true,
+      "strategies": [
+        { "type": "text", "value": "Konfirmasi" },
+        { "type": "text", "value": "Confirm" },
+        { "type": "textContains", "value": "konfirmasi" },
+        { "type": "textContains", "value": "confirm" },
+        { "type": "jsClick", "value": "konfirmasi" }
+      ],
+      "validation": [
+        { "type": "textContains", "value": "bayar" },
+        { "type": "textContains", "value": "pay" }
+      ]
+    },
+    {
+      "name": "7 - Klik Bayar",
+      "causesPageLoad": true,
+      "strategies": [
+        { "type": "textContains", "value": "bayar" },
+        { "type": "textContains", "value": "pay" },
+        { "type": "css", "value": "#main button" },
+        { "type": "jsClick", "value": "bayar" }
+      ],
+      "validation": [
+        { "type": "css", "value": "#modal input[type=\"password\"]" },
+        { "type": "css", "value": "#modal input[type=\"tel\"]" },
+        { "type": "css", "value": "#modal input" },
+        { "type": "css", "value": ".modal input" },
+        { "type": "css", "value": "[role=\"dialog\"] input" },
+        { "type": "css", "value": "input[type=\"password\"]" }
+      ]
+    },
+    {
+      "name": "8 - Input PIN",
+      "causesPageLoad": false,
+      "customAction": "inputPin",
+      "validation": [
+        { "type": "css", "value": "#modal button" },
+        { "type": "css", "value": "[role=\"dialog\"] button" },
+        { "type": "textContains", "value": "konfirmasi" },
+        { "type": "textContains", "value": "confirm" }
+      ]
+    },
+    {
+      "name": "9 - Konfirmasi Akhir",
+      "causesPageLoad": true,
+      "strategies": [
+        { "type": "css", "value": "#modal button" },
+        { "type": "css", "value": "[role=\"dialog\"] button" },
+        { "type": "textContains", "value": "konfirmasi" },
+        { "type": "textContains", "value": "confirm" },
+        { "type": "jsClick", "value": "konfirmasi" }
+      ],
+      "validation": [
+        { "type": "text", "value": "OK" },
+        { "type": "textContains", "value": "ok" },
+        { "type": "textContains", "value": "selesai" }
+      ]
+    },
+    {
+      "name": "10 - Klik OK",
+      "causesPageLoad": false,
+      "customAction": "clickOkWithErrorCheck",
+      "okStrategies": [
+        { "type": "text", "value": "OK" },
+        { "type": "textContains", "value": "ok" },
+        { "type": "textContains", "value": "selesai" },
+        { "type": "textContains", "value": "done" },
+        { "type": "jsClick", "value": "ok" }
+      ],
+      "errorOkStrategies": [
+        { "type": "text", "value": "OK" },
+        { "type": "textContains", "value": "ok" },
+        { "type": "jsClick", "value": "ok" }
+      ]
+    }
+  ]
+}
