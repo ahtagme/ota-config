@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "2.2.0",
   "topupUrl": "https://seller.shopee.co.id/portal/marketing/pas/top-up?source_page_id=1",
   "timing": {
     "pageLoadTimeout": 25000,
@@ -13,9 +13,9 @@
     "pinKeyDelay": [40, 85]
   },
   "pinConfig": {
-    "modalSelectors": ["#modal", ".modal", "[role=\"dialog\"]", "[class*=\"modal\"]"],
-    "inputTypes": ["password", "tel"],
-    "confirmTexts": ["konfirmasi", "confirm"]
+    "modalSelectors": ["#modal", ".modal", "[role=\"dialog\"]", "[class*=\"modal\"]", "[class*=\"dialog\"]", "[class*=\"popup\"]", "[class*=\"overlay\"]"],
+    "inputTypes": ["password", "tel", "text"],
+    "confirmTexts": ["konfirmasi", "confirm", "verifikasi", "verify"]
   },
   "pinErrorTexts": [
     "pin saldo penjual salah",
@@ -88,7 +88,12 @@
       ]
     },
     {
-      "name": "6 - Klik Konfirmasi",
+      "name": "6 - Pilih Metode Pembayaran",
+      "causesPageLoad": false,
+      "customAction": "selectPaymentMethod"
+    },
+    {
+      "name": "7 - Klik Konfirmasi",
       "causesPageLoad": true,
       "strategies": [
         { "type": "text", "value": "Konfirmasi" },
@@ -103,7 +108,7 @@
       ]
     },
     {
-      "name": "7 - Klik Bayar",
+      "name": "8 - Klik Bayar",
       "causesPageLoad": true,
       "strategies": [
         { "type": "textContains", "value": "bayar" },
@@ -121,34 +126,43 @@
       ]
     },
     {
-      "name": "8 - Input PIN",
+      "name": "9 - Input PIN",
       "causesPageLoad": false,
       "customAction": "inputPin",
       "validation": [
         { "type": "css", "value": "#modal button" },
         { "type": "css", "value": "[role=\"dialog\"] button" },
         { "type": "textContains", "value": "konfirmasi" },
-        { "type": "textContains", "value": "confirm" }
+        { "type": "textContains", "value": "confirm" },
+        { "type": "textContains", "value": "verifikasi" },
+        { "type": "textContains", "value": "verify" }
       ]
     },
     {
-      "name": "9 - Konfirmasi Akhir",
+      "name": "10 - Konfirmasi Akhir",
       "causesPageLoad": true,
       "strategies": [
-        { "type": "css", "value": "#modal button" },
-        { "type": "css", "value": "[role=\"dialog\"] button" },
+        { "type": "text", "value": "Konfirmasi" },
+        { "type": "text", "value": "Confirm" },
         { "type": "textContains", "value": "konfirmasi" },
         { "type": "textContains", "value": "confirm" },
-        { "type": "jsClick", "value": "konfirmasi" }
+        { "type": "textContains", "value": "verifikasi" },
+        { "type": "textContains", "value": "verify" },
+        { "type": "jsClick", "value": "konfirmasi" },
+        { "type": "jsClick", "value": "verifikasi" },
+        { "type": "css", "value": "#modal button" },
+        { "type": "css", "value": "[role=\"dialog\"] button" }
       ],
       "validation": [
         { "type": "text", "value": "OK" },
         { "type": "textContains", "value": "ok" },
-        { "type": "textContains", "value": "selesai" }
+        { "type": "textContains", "value": "selesai" },
+        { "type": "textContains", "value": "berhasil" },
+        { "type": "textContains", "value": "success" }
       ]
     },
     {
-      "name": "10 - Klik OK",
+      "name": "11 - Klik OK",
       "causesPageLoad": false,
       "customAction": "clickOkWithErrorCheck",
       "okStrategies": [
@@ -163,6 +177,11 @@
         { "type": "textContains", "value": "ok" },
         { "type": "jsClick", "value": "ok" }
       ]
+    },
+    {
+      "name": "12 - Verifikasi Sukses",
+      "causesPageLoad": false,
+      "customAction": "verifySuccess"
     }
   ]
 }
